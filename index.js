@@ -5,9 +5,16 @@
   pongular = require('pongular').pongular;
 
   module.exports = pongular.module('pong-express', []).service('express', function() {
-    return require('express');
-  }).service('http', require('http')).service('expressApp', function(express) {
-    return express();
+    return function(port, init) {
+      var app, server;
+      app = require('express')();
+      init(app);
+      return server = app.listen(port, function() {
+        var address;
+        address = server.address();
+        return console.log('Express server listening at %s:%s', address.address, address.port);
+      });
+    };
   });
 
 }).call(this);
