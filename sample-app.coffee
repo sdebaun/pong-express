@@ -1,27 +1,3 @@
-# pong-express
-pongular module for express, for drop-in use in angular-fullstack
-
-## installation
-
-```bash
-$ npm install [THIS REPO URL]
-```
-
-## use
-
-Replace your ```server/app.js``` with:
-
-```js
-'use strict';
-require('coffee-script/register');
-require('./app.coffee');
-```
-
-The sample-app.coffee file has all the functionality in the original app.js and all its dependencies (routes.js, errors.js) --that is to say, not much.
-
-Here's what it looks like:
-
-```coffee
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 pongular = require('pongular').pongular;
@@ -52,32 +28,24 @@ pongular.injector(['app', 'pong-express']).invoke (serve, httpConfig, expressCon
 
 		app.route('/*').get (req,res)-> res.sendFile app.get('appPath') + '/index.html'
 
-FIXTURES = [ ... ]
-```
-
-### features
-
-#### serve
-
-Creates a new app, lets you configure it, and fires it up on the port you specify.
-
-```coffee
-serve somePort, (app)->
-	# configure and set your routes here
-```
-
-#### controller
-
-Simple shortcut for creating a new express router and returning it.
-
-```coffee
-# simple controllers
-.service 'simpleController', (controller)->
-	controller '/', (req,res)-> res.json(...)
-
-# more complex controllers
-.service 'myController', (controller)->
-	controller (router)->
-		router.route('/foo').get (req,res)->...
-		# more complex routing
-```
+FIXTURES = [
+				{
+				name : 'Development Tools',
+				info : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.'
+				}, {
+				name : 'Server and Client integration',
+				info : 'Built with a powerful and fun stack: MongoDB, Express, AngularJS, and Node.'
+				}, {
+				name : 'Smart Build System',
+				info : 'Build system ignores `spec` files, allowing you to keep tests alongside code. Automatic injection of scripts and styles into your index.html'
+				},  {
+				name : 'Modular Structure',
+				info : 'Best practice client and server structures allow for more code reusability and maximum scalability'
+				},  {
+				name : 'Optimized Build',
+				info : 'Build process packs up your templates as a single JavaScript payload, minifies your scripts/css/images, and rewrites asset names for caching.'
+				},{
+				name : 'Deployment Ready',
+				info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
+				}
+			]
