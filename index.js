@@ -5,15 +5,28 @@
   pongular = require('pongular').pongular;
 
   module.exports = pongular.module('pong-express', []).service('express', function() {
+    return require('express');
+  }).service('serve', function(express) {
     return function(port, init) {
       var app, server;
-      app = require('express')();
+      app = express();
       init(app);
       return server = app.listen(port, function() {
         var address;
         address = server.address();
         return console.log('Express server listening at %s:%s', address.address, address.port);
       });
+    };
+  }).service('controller', function(express) {
+    return function(path_or_init, init_or_null) {
+      var router;
+      router = express.Router();
+      if (typeof path_or_init === 'string') {
+        router.route(path_or_init).get(init_or_null);
+      } else {
+        path_or_init(router);
+      }
+      return router;
     };
   });
 

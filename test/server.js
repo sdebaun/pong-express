@@ -8,14 +8,27 @@
 
   require('../index.js');
 
-  pongular.injector(['pong-express']).invoke(function(express) {
-    var expressConfig, httpConfig;
+  pongular.injector(['pong-express']).invoke(function(serve, controller) {
+    var complexController, expressConfig, httpConfig, simpleController;
+    simpleController = controller('/', function(req, res) {
+      return res.json([1, 2, 3]);
+    });
+    complexController = controller(function(router) {
+      router.route('/').get(function(req, res) {
+        return res.json([4, 5, 6]);
+      });
+      return router.route('/list').get(function(req, res) {
+        return res.json([7, 8, 9]);
+      });
+    });
     httpConfig = require('./config/environment');
     expressConfig = require('./config/express');
-    return express(httpConfig.port, function(app) {
+    return serve(httpConfig.port, function(app) {
       expressConfig(app);
+      app.use('/foo', simpleController);
+      app.use('/bar', complexController);
       return app.route('/*').get(function(req, res) {
-        return res.sendfile('./test/index.html');
+        return res.sendFile('./test/index.html');
       });
     });
   });
