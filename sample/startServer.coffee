@@ -1,27 +1,37 @@
+pongular = require('pongular').pongular
+
+require 'pong-express'
+
+# ########################################
+# your app's module can live anywhere and be require'd
+# i usually call it 'app' and put it in ./app.coffee, and it starts like:
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
-pongular = require('pongular').pongular;
-require('pong-express');
-
 pongular.module 'app', []
-.uses 'server/api/*.coffee'
-.service 'httpConfig', -> require './config/environment' # copied from angular-fullstack
-.service 'expressConfig', -> require './config/express' # copied from angular-fullstack
+# jack configs from angular-fullstack
+.service 'httpConfig', -> require './config/environment' 
+.service 'expressConfig', -> require './config/express'
 
-.service 'ThingsController', (controller)->
-	controller '/', (req,res)->res.json(FIXTURES)
+# a simple controller
+.service 'thingController', ($controller)->
+	$controller '/', (req,res)->res.json(FIXTURES)
 
-.service 'AnotherThingsController', (controller)->
-	controller (router)->
+# a more complex controller
+.service 'anotherThingController', ($controller)->
+	$controller (router)->
 		router.route('/').get (req,res)->res.json(FIXTURES)
 		router.route('/:id').get (req,res)->res.json(FIXTURES[req.params.id])
 
-pongular.injector(['app', 'pong-express']).invoke (serve, httpConfig, expressConfig, ThingsController, AnotherThingsController)->
-	serve httpConfig.port, (app)-> # simplest syntax i could get to
+# ########################################
+# this is the actual startup
+# what's left once the 'app' module moves out
+pongular.injector(['app', 'pong-express']).invoke ($serve, httpConfig, expressConfig, thingController, anotherThingController)->
+
+	$serve httpConfig.port, (app)-> # simplest syntax i could get to
 		expressConfig(app)
 
-		app.use '/api/things', ThingsController
-		app.use '/api/another', AnotherThingsController
+		app.use '/api/thing', thingController
+		app.use '/api/another', anotherThingController
 
 		app.route('/:url(api|auth|components|app|bower_components|assets)/*').get (req,res)->
 			res.status(404).render '404'

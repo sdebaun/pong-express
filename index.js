@@ -6,7 +6,7 @@
 
   module.exports = pongular.module('pong-express', []).service('express', function() {
     return require('express');
-  }).service('serve', function(express) {
+  }).service('$serve', function(express) {
     return function(port, init) {
       var app, server;
       app = express();
@@ -17,7 +17,7 @@
         return console.log('Express server listening at %s:%s', address.address, address.port);
       });
     };
-  }).service('controller', function(express) {
+  }).service('$controller', function(express) {
     return function(path_or_init, init_or_null) {
       var router;
       router = express.Router();

@@ -6,7 +6,7 @@ pongular.module('pong-express',[])
 
 .service 'express', -> require 'express'
 
-.service 'serve', (express)->
+.service '$serve', (express)->
 	(port,init)->
 		app = express()
 		init(app)
@@ -14,7 +14,7 @@ pongular.module('pong-express',[])
 			address = server.address()
 			console.log 'Express server listening at %s:%s', address.address, address.port
 
-.service 'controller', (express)->
+.service '$controller', (express)->
 	(path_or_init, init_or_null)->
 		router = express.Router()
 		if typeof(path_or_init)=='string'
