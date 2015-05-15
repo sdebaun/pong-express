@@ -1,0 +1,23 @@
+{
+  "name": "pong-express",
+  "version": "0.0.1",
+  "description": "pongular module for express, for drop-in use in angular-fullstack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdebaun/pong-express.git"
+  },
+  "author": "'sdebaun' <'sdebaun74@gmail.com'>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sdebaun/pong-express/issues"
+  },
+  "homepage": "https://github.com/sdebaun/pong-express",
+  "dependencies": {
+    "express": "^4.12.3",
+    "pongular": "0.0.6"
+  }
+}
